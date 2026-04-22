@@ -6,7 +6,7 @@
     <title>五一劳动节专属祝福生成器 💘</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 自定义配置 + 所有样式 -->
+    <!-- 自定义配置 -->
     <script>
         tailwind.config = {
             theme: {
@@ -49,7 +49,6 @@
             .floating-heart { pointer-events: none; z-index: 9999; }
         }
     </style>
-    <!-- 所有CSS样式内置 -->
     <style>
         body {
             background-color: #FFF5F7;
@@ -66,14 +65,8 @@
             opacity: 0;
         }
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .surprise-item:nth-child(1) { animation-delay: 0.1s; }
         .surprise-item:nth-child(2) { animation-delay: 0.2s; }
@@ -88,10 +81,9 @@
         .blessing-card:hover {
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
         }
-        @media (max-width: 768px) {
-            .card-3d {
-                transform: none !important;
-            }
+        @keyframes floatHeart {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-300px); opacity: 0; }
         }
     </style>
 </head>
@@ -213,7 +205,7 @@
             </div>
         </section>
 
-        <!-- 新增：AI问答功能 -->
+        <!-- AI问答功能 -->
         <section class="mb-16">
             <h2 class="text-2xl md:text-3xl font-medium text-center mb-8 text-primary">
                 🧠 AI问答（自定义提问）
@@ -283,7 +275,7 @@
         </footer>
     </div>
 
-    <!-- 惊喜页面（通用化） -->
+    <!-- 惊喜页面 -->
     <div id="surprisePage" class="hidden fixed inset-0 bg-gradient-to-br from-love to-primary z-50 overflow-y-auto">
         <div class="container mx-auto px-4 py-12 text-center text-white">
             <!-- 返回按钮 -->
@@ -330,9 +322,9 @@
         </div>
     </div>
 
-    <!-- 所有JS代码内置（通用化 + 新增AI问答） -->
+    <!-- JS代码 -->
     <script>
-        // ====== 通用配置（移除余baby） ======
+        // 通用配置
         const Config = {
             page: {
                 defaultBlessing: "五一劳动节快乐！愿你劳逸结合，收获满满，所有的努力都有回报～",
@@ -342,7 +334,7 @@
             },
             api: {
                 blessingApi: "https://api.example.com/generate-blessing",
-                qaApi: "https://api.example.com/ai-qa", // AI问答接口
+                qaApi: "https://api.example.com/ai-qa",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
@@ -355,7 +347,7 @@
             }
         };
 
-        // ====== 工具函数 ======
+        // 工具函数
         const Utils = {
             loadingProgress: (progressId) => {
                 const progressBar = document.getElementById(progressId);
@@ -422,20 +414,10 @@
                     z-index: 9999;
                 `;
                 
-                const style = document.createElement('style');
-                style.textContent = `
-                    @keyframes floatHeart {
-                        0% { transform: translateY(0); opacity: 1; }
-                        100% { transform: translateY(-${containerRect.height + 50}px); opacity: 0; }
-                    }
-                `;
-                document.head.appendChild(style);
-                
                 container.appendChild(heart);
                 
                 setTimeout(() => {
                     heart.remove();
-                    style.remove();
                 }, 5000);
             },
             debounce: (func, delay) => {
@@ -457,7 +439,7 @@
             }
         };
 
-        // ====== API服务（新增AI问答） ======
+        // API服务
         const ApiService = {
             // 劳动节祝福生成
             generateLaborBlessing: async (style, target, length) => {
@@ -509,19 +491,17 @@
                     };
                 }
             },
-            // 新增：AI问答功能
+            // AI问答功能
             askAiQuestion: async (question) => {
                 try {
                     await new Promise(resolve => setTimeout(resolve, 1500));
                     
-                    // 模拟AI回答模板（可替换为真实接口）
+                    // AI回答模板
                     const qaTemplates = {
-                        // 劳动节祝福相关
                         '祝福语': '五一劳动节祝福语推荐：1. 愿你劳逸结合，收获满满；2. 致敬每一份努力，节日快乐；3. 劳动创造美好，假期放松心情～',
                         '贺卡': '五一贺卡文案：✨ 致敬每一份平凡而伟大的努力 ✨\n愿时光不负努力，岁月不负耕耘\n五一劳动节快乐！',
                         '短信': '五一劳动节短信：劳动节到了，愿你放下忙碌，拥抱轻松；卸下疲惫，享受美好。节日快乐！',
                         '朋友圈': '五一朋友圈文案：🔅 一半努力，一半惬意\n致敬每一个认真生活的人\n五一劳动节快乐～',
-                        // 通用回答
                         '默认': `根据你的问题：「${question}」，为你整理的回答：
 1. 五一劳动节是向所有劳动者致敬的节日，祝福要真诚而温暖
 2. 不同的祝福对象适合不同的风格：对家人温馨、对朋友搞怪、对同事正式
@@ -548,37 +528,10 @@
                         content: `抱歉，暂时无法回答你的问题：${question}`
                     };
                 }
-            },
-            // 通用请求
-            request: async (url, options = {}) => {
-                try {
-                    const requestOptions = {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json',
-                            ...Config.api?.headers
-                        },
-                        timeout: Config.page?.apiTimeout || 10000,
-                        ...options
-                    };
-
-                    const response = await fetch(url || Config.api?.blessingApi, requestOptions);
-                    
-                    if (!response.ok) throw new Error(`HTTP错误，状态码：${response.status}`);
-                    return await response.json();
-                } catch (error) {
-                    console.error('API请求失败:', error);
-                    return { 
-                        success: false, 
-                        message: `请求失败：${error.message}`,
-                        content: Config.page.defaultBlessing
-                    };
-                }
             }
         };
 
-        // ====== 惊喜页（通用化） ======
+        // 惊喜页
         const SurprisePage = {
             init: () => {
                 const surprisePage = document.getElementById('surprisePage');
@@ -645,7 +598,7 @@
             }
         };
 
-        // ====== 主页面（新增AI问答） ======
+        // 主页面
         const MainPage = {
             init: () => {
                 MainPage.detectDevice();
@@ -654,7 +607,7 @@
                 MainPage.init3dEffect();
                 MainPage.initBlessingGenerator();
                 MainPage.initAiBlessing();
-                MainPage.initAiQa(); // 初始化AI问答
+                MainPage.initAiQa();
                 MainPage.initBlindBox();
                 
                 document.getElementById('goToSurprisePage').addEventListener('click', SurprisePage.goToSurprise);
@@ -889,7 +842,7 @@
                     }
                 });
             },
-            // 新增：初始化AI问答功能
+            // AI问答初始化
             initAiQa: () => {
                 const askBtn = document.getElementById('askAiBtn');
                 const questionInput = document.getElementById('aiQuestion');
