@@ -1,1 +1,98 @@
+/* 移动端适配核心样式 */
+@media (max-width: : : : : : : : 768: : : : : : : : 768px) {
+    /* 基础布局 */
+    .container     .container {
+        padding: : 0 16px !important;;
+    }
+    .glass, .glass-love     .glass, .glass-love {
+        padding: : 16px !important;;
+        margin: : 0 0 24px 0 !important;;
+    }
+    /* 按钮放大 */
+    .btn-love, .btn-primary     .btn-love, .btn-primary {
+        width: : 100% !important;;
+        padding: : 16px !important;;
+        font-size: : 16px !important;;
+    }
+    /* 3D特效弱化（移动端性能优化） */
+    .card-3d-hover:    .card-3d-hover:hover {
+        transform: : none !important;;
+        box-shadow: : 0 10px 20px rgba(255, , 107, , 139, , 0.15) !important;;
+    }
+    /* 爱心雨密度减少 */
+    .floating-heart     .floating-heart {
+        font-size: : 10px !important;;
+        animation-duration: : 4s !important;;
+    }
+    /* 输入框放大 */
+    input, textarea, select     input, textarea, select {
+        font-size: : 16px !important; ; /* 避免移动端缩放 */
+        padding: : 12px !important;;
+    }
+    /* 图片预览适配 */
+    #imagePreviewContainer     #imagePreviewContainer {
+        grid-template-columns: : 1fr !important;;
+    }
+    /* 惊喜页适配 */
+    #surprisePage .glass-love     #surprisePage .glass-love {
+        padding: : 16px !important;;
+        margin: : 0 !important;;
+    }
+}
 
+/* 小屏手机适配（≤480px） */
+@media (max-width: : 480px) {
+    /* 标题字号优化 */
+    h1     h1 {
+        font-size: : 24px !important;;
+    }
+    h2     h2 {
+        font-size: : 20px !important;;
+    }
+    /* 3D容器高度降低 */
+    #threeDContainer     #threeDContainer {
+        height: : 180px !important;;
+    }
+    /* 盲盒模块单列 */
+    #funSection .grid     #funSection .grid {
+        grid-template-columns: : 1fr !important;;
+    }
+    /* AI选项单列 */
+    #aiSection .grid     #aiSection .grid {
+        grid-template-columns: : 1fr !important;;
+    }
+    /* 惊喜页按钮适配 */
+    #loveBtn     #loveBtn {
+        padding: : 12px !important;;
+        font-size: : 14px !important;;
+    }
+}
+
+/* PC大屏适配（≥1200px） */
+@media (min-width: : 1200px) {
+    .container     .container {
+        max-width: : 1200px !important;;
+        margin: : 0 auto !important;;
+    }
+    /* 大屏3D特效增强 */
+    .card-3d-hover:    .card-3d-hover:hover {
+        transform: : rotateY(15deg) rotateX(8deg) scale(1.08) !important;;
+    }
+    /* 大屏图片预览4列 */
+    #imagePreviewContainer     #imagePreviewContainer {
+        grid-template-columns: : repeat(4, , 1fr) !important;;
+    }
+}
+
+/* 通用触控反馈 */
+@media (hover: : none) and  and (pointer: : coarse) {
+    /* 移动端触摸反馈 */
+    .btn-love:    .btn-love:active, .btn-primary:, .btn-primary:active {
+        transform: : scale(0.95) !important;;
+        background-color: #FF477E : #FF477E !important;;
+    }
+    /* 移除hover效果（移动端无hover） */
+    .hover-scale:    .hover-scale:hover {
+        transform: : none !important;;
+    }
+}
