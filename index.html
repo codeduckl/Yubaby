@@ -3,931 +3,302 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>五一劳动节专属祝福生成器 💘</title>
-    <!-- Tailwind CSS CDN -->
+    <title>五一劳动节 · AI智能助手</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 自定义配置 -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#FF6B8B',
-                        love: '#FF477E',
-                        loveLight: '#FFC2D1',
-                        light: '#FFF5F7'
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'float': 'float 3s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        }
+                        primary: '#6366F1',
+                        secondary: '#8B5CF6',
+                        light: '#F8FAFC',
+                        dark: '#1E293B'
                     }
                 }
             }
         }
     </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .content-auto { content-visibility: auto; }
-            .hover-scale { @apply transition-transform duration-300 hover:scale-105; }
-            .card-3d { @apply transition-all duration-500 transform perspective-1000; }
-            .card-3d-hover { @apply hover:shadow-xl; }
-            .typing-effect-enhanced {
-                overflow: hidden;
-                border-right: 2px solid #FF6B8B;
-                white-space: nowrap;
-                margin: 0 auto;
-                animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
-            }
-            @keyframes typing { from { width: 0 } to { width: 100% } }
-            @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #FF6B8B } }
-            .floating-heart { pointer-events: none; z-index: 9999; }
-        }
-    </style>
     <style>
         body {
-            background-color: #FFF5F7;
+            background-color: #F8FAFC;
             min-height: 100vh;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            color: #1f2937;
-            overflow-x: hidden;
         }
-        .bg-radial-gradient {
-            background: radial-gradient(circle, rgba(255, 107, 139, 0.2) 0%, transparent 70%);
+        .message-user {
+            background-color: #6366F1;
+            color: white;
+            border-radius: 1rem 1rem 0.25rem 1rem;
         }
-        .surprise-item {
-            animation: fadeInUp 0.8s ease-out forwards;
-            opacity: 0;
+        .message-ai {
+            background-color: white;
+            color: #1E293B;
+            border-radius: 1rem 1rem 1rem 0.25rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .typing-effect {
+            overflow: hidden;
+            border-right: 2px solid #6366F1;
+            white-space: nowrap;
+            animation: typing 2s steps(40, end), blink-caret 0.75s step-end infinite;
         }
-        .surprise-item:nth-child(1) { animation-delay: 0.1s; }
-        .surprise-item:nth-child(2) { animation-delay: 0.2s; }
-        .surprise-item:nth-child(3) { animation-delay: 0.3s; }
-        .surprise-item:nth-child(4) { animation-delay: 0.4s; }
-        .surprise-item:nth-child(5) { animation-delay: 0.5s; }
-        .blessing-card {
-            background: white;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #6366F1 } }
+        .loading-dots span {
+            animation: pulse 1.4s ease-in-out infinite;
         }
-        .blessing-card:hover {
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-        }
-        @keyframes floatHeart {
-            0% { transform: translateY(0); opacity: 1; }
-            100% { transform: translateY(-300px); opacity: 0; }
+        .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1); }
         }
     </style>
 </head>
 <body>
-    <!-- 加载进度条 -->
-    <div id="loadingProgress" class="fixed top-0 left-0 h-1 bg-primary z-50 w-0 transition-all duration-300"></div>
-    
-    <!-- 鼠标/触摸光影效果 -->
-    <div id="glowEffect" class="fixed pointer-events-none z-40 rounded-full opacity-0 transition-all duration-300"></div>
-    <div id="glowLoveEffect" class="fixed pointer-events-none z-40 rounded-full opacity-0 transition-all duration-300 bg-radial-gradient"></div>
-
-    <!-- 主页面 -->
-    <div id="mainPage" class="container mx-auto px-4 py-8 md:py-12">
+    <div class="max-w-3xl mx-auto px-4 py-6">
         <!-- 顶部标题 -->
-        <header class="text-center mb-12 surprise-item">
-            <h1 class="text-[clamp(2rem,5vw,3rem)] font-bold text-love mb-4 animate-float">
-                五一劳动节快乐 💖
+        <header class="text-center mb-8">
+            <h1 class="text-[clamp(1.8rem,5vw,2.5rem)] font-bold text-dark mb-2">
+                🤖 五一劳动节 · AI智能助手
             </h1>
-            <p class="text-gray-600 text-lg md:text-xl">
-                致敬每一份努力，生成专属劳动节祝福～
+            <p class="text-gray-600">
+                致敬每一份努力，用AI帮你生成专属劳动节祝福、文案、问答～
             </p>
         </header>
 
-        <!-- 照片上传区域 -->
-        <section class="mb-16">
-            <h2 class="text-2xl md:text-3xl font-medium text-center mb-8 text-primary">
-                📸 上传照片（生成贺卡用）
-            </h2>
-            <div id="dropZone" class="border-2 border-dashed border-gray-300 rounded-2xl p-8 md:p-12 text-center hover:border-primary transition-colors cursor-pointer mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <p class="text-gray-600 mb-2">点击/拖拽上传照片（移动端长按）</p>
-                <p class="text-sm text-gray-500">支持jpg/png格式，可上传多张～</p>
-                <input type="file" id="fileInput" class="hidden" accept="image/*" multiple>
-            </div>
-            <!-- 照片预览 -->
-            <div id="imagePreviewContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                <!-- 上传的照片会在这里显示 -->
-            </div>
-        </section>
-
-        <!-- 3D祝福卡片区域 -->
-        <section class="mb-16">
-            <h2 class="text-2xl md:text-3xl font-medium text-center mb-8 text-primary">
-                💌 五一专属3D特效
-            </h2>
-            <div id="threeDContainer" class="max-w-3xl mx-auto mb-8 relative h-64 md:h-80 flex items-center justify-center">
-                <div class="card-3d bg-white rounded-2xl p-8 shadow-lg w-full max-w-lg text-center">
-                    <h3 class="text-xl md:text-2xl font-medium mb-4 text-love">五一劳动节快乐</h3>
-                    <p class="text-gray-700">点击下方按钮生成你的专属祝福～</p>
-                </div>
-            </div>
-            
-            <!-- 祝福生成器 -->
-            <div class="max-w-2xl mx-auto">
-                <textarea id="blessingText" class="w-full p-4 rounded-xl border border-gray-200 mb-4 focus:outline-none focus:ring-2 focus:ring-primary/50 h-32 resize-none" placeholder="输入想对TA说的劳动节祝福（不填则使用默认祝福）..."></textarea>
-                <div class="flex gap-4 justify-center">
-                    <button id="generateCard" class="bg-primary text-white px-6 py-3 rounded-xl hover:bg-love transition-colors hover-scale">
-                        🎨 生成祝福卡片
-                    </button>
-                    <button id="saveCard" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300 transition-colors hover-scale">
-                        💾 保存卡片
-                    </button>
-                </div>
-                
-                <!-- 卡片预览 -->
-                <div id="cardPreview" class="mt-8 max-w-lg mx-auto">
-                    <!-- 生成的卡片会在这里显示 -->
-                </div>
-            </div>
-        </section>
-
-        <!-- AI祝福生成 -->
-        <section class="mb-16">
-            <h2 class="text-2xl md:text-3xl font-medium text-center mb-8 text-primary">
-                ✨ AI智能生成（劳动节专属）
-            </h2>
-            <div class="max-w-2xl mx-auto bg-white rounded-2xl p-6 md:p-8 shadow-lg">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    <div>
-                        <label class="block text-gray-700 mb-2 text-sm">祝福风格</label>
-                        <select id="blessingStyle" class="w-full p-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50">
-                            <option value="搞怪">搞怪可爱</option>
-                            <option value="温馨" selected>温馨治愈</option>
-                            <option value="甜蜜">超甜腻歪</option>
-                            <option value="霸道">霸道宠溺</option>
-                            <option value="文艺">文艺浪漫</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 mb-2 text-sm">祝福对象</label>
-                        <input type="text" id="blessingTarget" class="w-full p-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50" value="TA" placeholder="比如：家人/朋友/同事">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 mb-2 text-sm">祝福长度</label>
-                        <select id="blessingLength" class="w-full p-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50">
-                            <option value="50">简短（50字内）</option>
-                            <option value="100" selected>适中（100字内）</option>
-                            <option value="200">长篇（200字内）</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <button id="generateAiBlessing" class="w-full bg-love text-white px-6 py-3 rounded-xl hover:bg-primary transition-colors hover-scale flex items-center justify-center gap-2">
-                    🤖 生成AI专属祝福
-                    <span class="loader hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                    </span>
-                </button>
-                
-                <!-- AI祝福结果 -->
-                <div id="aiBlessingResult" class="mt-6 p-4 rounded-lg bg-light min-h-[100px]">
-                    <p class="text-gray-600 text-center">点击上方按钮生成专属劳动节祝福～</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- AI问答功能 -->
-        <section class="mb-16">
-            <h2 class="text-2xl md:text-3xl font-medium text-center mb-8 text-primary">
-                🧠 AI问答（自定义提问）
-            </h2>
-            <div class="max-w-2xl mx-auto bg-white rounded-2xl p-6 md:p-8 shadow-lg">
-                <div class="mb-6">
-                    <label class="block text-gray-700 mb-2 text-sm">输入你的问题</label>
-                    <textarea id="aiQuestion" class="w-full p-4 rounded-xl border border-gray-200 mb-4 focus:outline-none focus:ring-2 focus:ring-primary/50 h-32 resize-none" placeholder="比如：帮我写一段五一劳动节祝福语、生成五一贺卡文案、五一祝福短信怎么写..."></textarea>
-                </div>
-                
-                <button id="askAiBtn" class="w-full bg-primary text-white px-6 py-3 rounded-xl hover:bg-love transition-colors hover-scale flex items-center justify-center gap-2">
-                    🚀 向AI提问
-                    <span class="ai-loading hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                    </span>
-                </button>
-                
-                <!-- AI问答结果 -->
-                <div id="aiAnswerResult" class="mt-6 p-4 rounded-lg bg-light min-h-[100px]">
-                    <p class="text-gray-600 text-center">输入问题后点击按钮，AI将为你生成专属回答～</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 五一盲盒 -->
-        <section class="mb-16">
-            <h2 class="text-2xl md:text-3xl font-medium text-center mb-8 text-primary">
-                🎁 五一趣味功能
-            </h2>
-            <div class="max-w-md mx-auto text-center">
-                <div class="bg-white rounded-2xl p-8 shadow-lg mb-6">
-                    <h3 class="text-xl font-medium text-love mb-4">祝福盲盒</h3>
-                    <div id="blindBoxResult" class="mb-6 min-h-[80px] flex items-center justify-center">
-                        <p class="text-gray-600">点击按钮开启惊喜～</p>
-                    </div>
-                    <button id="openBlindBox" class="bg-gradient-to-r from-primary to-love text-white px-8 py-4 rounded-xl hover-scale text-lg font-medium">
-                        🎉 打开盲盒
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- 惊喜页跳转 -->
-        <section class="text-center mb-8">
-            <button id="goToSurprisePage" class="bg-love text-white px-8 py-4 rounded-full hover:bg-primary transition-colors hover-scale text-lg font-medium shadow-lg">
-                💘 点击进入专属惊喜页
+        <!-- 快捷问题 -->
+        <div class="flex flex-wrap gap-2 mb-6 justify-center">
+            <button class="quick-question bg-white px-4 py-2 rounded-full text-sm text-gray-700 hover:bg-primary hover:text-white transition-colors" data-question="帮我写五一劳动节祝福语">
+                ✍️ 写劳动节祝福语
             </button>
-        </section>
-
-        <!-- 部署指引 -->
-        <section class="mt-16 text-center">
-            <button id="deployGuideToggle" class="text-primary hover:text-love transition-colors text-sm">
-                🔍 查看部署指引
+            <button class="quick-question bg-white px-4 py-2 rounded-full text-sm text-gray-700 hover:bg-primary hover:text-white transition-colors" data-question="帮我写五一贺卡文案">
+                🎨 贺卡文案
             </button>
-            <div id="deployGuide" class="hidden mt-4 text-sm text-gray-600 max-w-lg mx-auto bg-white p-4 rounded-lg shadow">
-                <p>本页面已部署至 GitHub Pages：<a href="https://codeduckl.github.io/Yubaby/" class="text-primary hover:underline" target="_blank">codeduckl.github.io/Yubaby/</a></p>
-                <p class="mt-2">支持PC/手机/平板全端适配，刷新即可体验所有功能～</p>
+            <button class="quick-question bg-white px-4 py-2 rounded-full text-sm text-gray-700 hover:bg-primary hover:text-white transition-colors" data-question="五一朋友圈文案怎么写">
+                📱 朋友圈文案
+            </button>
+            <button class="quick-question bg-white px-4 py-2 rounded-full text-sm text-gray-700 hover:bg-primary hover:text-white transition-colors" data-question="五一祝福短信">
+                💬 祝福短信
+            </button>
+        </div>
+
+        <!-- 对话容器 -->
+        <div id="chatContainer" class="bg-white rounded-2xl shadow-lg p-6 mb-6 h-[500px] overflow-y-auto">
+            <!-- 欢迎消息 -->
+            <div class="flex gap-3 mb-6">
+                <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-sm">
+                    AI
+                </div>
+                <div class="message-ai px-4 py-3 max-w-[80%]">
+                    <p class="typing-effect">你好呀！我是你的劳动节专属AI助手，有什么问题都可以问我～</p>
+                </div>
             </div>
-        </section>
+            <!-- 对话内容会在这里动态添加 -->
+        </div>
+
+        <!-- 输入区域 -->
+        <div class="bg-white rounded-2xl shadow-lg p-4">
+            <div class="flex gap-3">
+                <textarea 
+                    id="userInput" 
+                    class="flex-1 p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none h-16"
+                    placeholder="输入你的问题，比如：帮我写五一祝福语..."
+                ></textarea>
+                <button 
+                    id="sendBtn" 
+                    class="bg-primary text-white px-6 py-3 rounded-xl hover:bg-secondary transition-colors flex items-center gap-2"
+                >
+                    发送
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0l-2-3m2 3h3" />
+                    </svg>
+                </button>
+            </div>
+            <p class="text-xs text-gray-500 mt-2 text-center">
+                基于Kimi大模型，劳动节专属优化，回答仅供参考
+            </p>
+        </div>
 
         <!-- 页脚 -->
-        <footer class="text-center mt-16 text-gray-500 text-sm">
-            <p>✨ 五一劳动节专属祝福生成器 · 致敬每一份努力 ✨</p>
+        <footer class="text-center mt-8 text-gray-500 text-sm">
+            <p>✨ 五一劳动节快乐 · 致敬每一份努力 ✨</p>
         </footer>
     </div>
 
-    <!-- 惊喜页面 -->
-    <div id="surprisePage" class="hidden fixed inset-0 bg-gradient-to-br from-love to-primary z-50 overflow-y-auto">
-        <div class="container mx-auto px-4 py-12 text-center text-white">
-            <!-- 返回按钮 -->
-            <button id="backToMainPage" class="absolute top-4 left-4 bg-white/20 text-white px-4 py-2 rounded-full hover:bg-white/30 transition-colors hover-scale">
-                ← 返回主页
-            </button>
-
-            <!-- 惊喜页内容 -->
-            <header class="mb-12">
-                <h1 class="text-[clamp(2.5rem,8vw,4rem)] font-bold mb-4 animate-float">
-                    五一劳动节快乐 ❤️
-                </h1>
-                <p class="text-xl md:text-2xl text-white/90">
-                    愿所有努力都有回报，节日快乐～
-                </p>
-            </header>
-
-            <div class="max-w-lg mx-auto bg-white/10 backdrop-blur-sm rounded-3xl p-8 md:p-12 mb-12">
-                <div class="mb-8">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 mx-auto text-white animate-float" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                    </svg>
-                </div>
-                
-                <p class="text-xl md:text-2xl mb-8 leading-relaxed">
-                    愿你在这个劳动节，<br>
-                    卸下所有疲惫，<br>
-                    享受属于自己的美好时光～<br>
-                    致敬每一份平凡而伟大的努力 💞
-                </p>
-                
-                <button id="loveBtn" class="bg-white text-love px-8 py-4 rounded-full hover-scale text-lg font-medium shadow-lg">
-                    ❤️ 领取节日祝福
-                </button>
-                
-                <div id="loveResult" class="hidden mt-6 text-xl font-medium">
-                    💘 节日祝福已送达！愿你天天开心～
-                </div>
-            </div>
-
-            <footer class="text-white/80">
-                <p>致敬每一位努力生活的人 💖</p>
-            </footer>
-        </div>
-    </div>
-
-    <!-- JS代码 -->
     <script>
-        // 通用配置
-        const Config = {
-            page: {
-                defaultBlessing: "五一劳动节快乐！愿你劳逸结合，收获满满，所有的努力都有回报～",
-                heartColors: ['#FF6B8B', '#FF477E', '#FF8FA3', '#FFC2D1'],
-                loadingSpeed: 50,
-                apiTimeout: 10000
-            },
-            api: {
-                blessingApi: "https://api.example.com/generate-blessing",
-                qaApi: "https://api.example.com/ai-qa",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            },
-            storage: {
-                images: 'mayday_images',
-                blessings: 'mayday_blessings',
-                settings: 'mayday_settings'
-            }
-        };
+        // ====== Kimi API 配置（你的API Key） ======
+        const KIMI_API_KEY = "sk-TC75yVtbc2L4b2bkxkjjqnb9648VdAsr4rR1LfIicFi5mMYv";
+        const KIMI_API_URL = "https://api.moonshot.cn/v1/chat/completions";
 
-        // 工具函数
+        // ====== 工具函数 ======
         const Utils = {
-            loadingProgress: (progressId) => {
-                const progressBar = document.getElementById(progressId);
-                let width = 0;
-                const interval = setInterval(() => {
-                    if (width >= 100) clearInterval(interval);
-                    else {
-                        width += 1;
-                        progressBar.style.width = `${width}%`;
-                    }
-                }, Config.page.loadingSpeed);
-            },
-            getStorage: (key) => {
-                try {
-                    const value = localStorage.getItem(key);
-                    return value ? JSON.parse(value) : null;
-                } catch (e) {
-                    console.error('获取存储失败:', e);
-                    return null;
-                }
-            },
-            setStorage: (key, value) => {
-                try {
-                    localStorage.setItem(key, JSON.stringify(value));
-                    return true;
-                } catch (e) {
-                    console.error('设置存储失败:', e);
-                    return false;
-                }
-            },
-            copyToClipboard: async (text) => {
-                try {
-                    await navigator.clipboard.writeText(text);
-                    return true;
-                } catch (e) {
-                    const textArea = document.createElement('textarea');
-                    textArea.value = text;
-                    document.body.appendChild(textArea);
-                    textArea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textArea);
-                    return true;
-                }
-            },
-            getRandomThemeColor: () => {
-                return Config.page.heartColors[Math.floor(Math.random() * Config.page.heartColors.length)];
-            },
-            createHeartEffect: (container) => {
-                const heart = document.createElement('div');
-                heart.className = 'floating-heart absolute';
-                heart.innerHTML = '❤️';
-                
-                const containerRect = container.getBoundingClientRect();
-                const left = Math.random() * containerRect.width;
-                const size = Math.random() * 10 + 10;
-                
-                heart.style.cssText = `
-                    left: ${left}px;
-                    bottom: -20px;
-                    font-size: ${size}px;
-                    color: ${Utils.getRandomThemeColor()};
-                    animation: floatHeart ${Math.random() * 3 + 2}s ease-in-out forwards;
-                    pointer-events: none;
-                    z-index: 9999;
-                `;
-                
-                container.appendChild(heart);
-                
-                setTimeout(() => {
-                    heart.remove();
-                }, 5000);
-            },
-            debounce: (func, delay) => {
-                let timer;
-                return (...args) => {
-                    clearTimeout(timer);
-                    timer = setTimeout(() => func.apply(this, args), delay);
-                };
-            },
-            throttle: (func, limit) => {
-                let lastCall = 0;
-                return (...args) => {
-                    const now = Date.now();
-                    if (now - lastCall >= limit) {
-                        lastCall = now;
-                        func.apply(this, args);
-                    }
-                };
-            }
-        };
+            // 添加消息到对话
+            addMessage: (role, content, isLoading = false) => {
+                const chatContainer = document.getElementById('chatContainer');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'flex gap-3 mb-4';
 
-        // API服务
-        const ApiService = {
-            // 劳动节祝福生成
-            generateLaborBlessing: async (style, target, length) => {
-                try {
-                    await new Promise(resolve => setTimeout(resolve, 1200));
-
-                    const blessingTemplates = {
-                        '搞怪': [
-                            `五一劳动节快乐～别人劳动赚钱，我劳动摸鱼😜！今天不用干活，只用躺平，奶茶零食管够，主打一个快乐～`,
-                            `劳动节到啦！不用搬砖，只用开心💘！逛街累了有人陪，拍照丑了不生气，总之今天你最大，说啥都对～`,
-                            `😝 五一劳动公约：禁止干活、禁止疲惫、禁止不开心！违反者罚吃好吃的一百口，没得商量～`
-                        ],
-                        '温馨': [
-                            `亲爱的${target || 'TA'}，五一劳动节快乐❤️！愿你在这个假期里卸下所有疲惫，好好放松，享受属于自己的美好时光～`,
-                            `劳动节快乐呀😘！感谢你一直以来的付出，这个假期好好休息，吃好喝好，把所有的美好都留给自己～`,
-                            `✨ 五一安康～愿假期的风都带着温柔，愿你每天都有甜甜的好心情，所有的努力都有回报～`
-                        ],
-                        '甜蜜': [
-                            `💖 五一快乐！劳动最光荣，但开心更重要～这个假期，你的手只用来拥抱，你的嘴只用来微笑，所有的辛苦都暂时放下～`,
-                            `❤️ 劳动节专属祝福：你是最棒的！五一不用干活，只用被宠爱，我的祝福永远为你续航，电量满格🔋～`,
-                            `🍬 五一甜度超标警告！愿你的假期比奶茶甜，比蛋糕软，只负责可爱，不负责劳累～`
-                        ],
-                        '霸道': [
-                            `😤 五一劳动节给我好好休息！不准干活，不准累着，不准不开心！你的假期由你做主，想吃啥吃啥，想去哪去哪～`,
-                            `听好了${target || 'TA'}！劳动节就是要好好犒劳自己！今天时间全归你，要求全满足，敢不开心我就陪你玩到开心😘～`,
-                            `👑 五一必须听我的！放下所有琐事，乖乖享受假期，不然我就陪你一起摆烂，啥也不干～`
-                        ],
-                        '文艺': [
-                            `✨ 五一劳动节安康。愿这个假期，春风拂面，温柔相伴，卸下风尘，轻拥美好。愿你的努力，都能开花结果～`,
-                            `🌿 劳动节，致每一个努力的你：世间万般美好，不及你眉眼一笑。愿你在劳作之余，亦能感受生活的温柔～`,
-                            `💫 五一恰逢春日，愿你不负时光，不负自己。用满心欢喜，迎接每一个朝夕～`
-                        ]
-                    };
-
-                    const styleTemplates = blessingTemplates[style] || blessingTemplates['温馨'];
-                    const randomBlessing = styleTemplates[Math.floor(Math.random() * styleTemplates.length)];
-                    const finalBlessing = randomBlessing.substring(0, parseInt(length) || 100);
-
-                    return {
-                        success: true,
-                        content: finalBlessing
-                    };
-                } catch (error) {
-                    console.error('生成祝福失败:', error);
-                    return {
-                        success: false,
-                        message: 'AI祝福生成失败，使用默认文案～',
-                        content: Config.page.defaultBlessing
-                    };
-                }
-            },
-            // AI问答功能
-            askAiQuestion: async (question) => {
-                try {
-                    await new Promise(resolve => setTimeout(resolve, 1500));
-                    
-                    // AI回答模板
-                    const qaTemplates = {
-                        '祝福语': '五一劳动节祝福语推荐：1. 愿你劳逸结合，收获满满；2. 致敬每一份努力，节日快乐；3. 劳动创造美好，假期放松心情～',
-                        '贺卡': '五一贺卡文案：✨ 致敬每一份平凡而伟大的努力 ✨\n愿时光不负努力，岁月不负耕耘\n五一劳动节快乐！',
-                        '短信': '五一劳动节短信：劳动节到了，愿你放下忙碌，拥抱轻松；卸下疲惫，享受美好。节日快乐！',
-                        '朋友圈': '五一朋友圈文案：🔅 一半努力，一半惬意\n致敬每一个认真生活的人\n五一劳动节快乐～',
-                        '默认': `根据你的问题：「${question}」，为你整理的回答：
-1. 五一劳动节是向所有劳动者致敬的节日，祝福要真诚而温暖
-2. 不同的祝福对象适合不同的风格：对家人温馨、对朋友搞怪、对同事正式
-3. 简短的祝福更易传播："劳动节快乐，愿你劳逸结合！"
-4. 可以结合对方的职业特点定制专属祝福，更显用心`
-                    };
-
-                    // 关键词匹配
-                    let answer = qaTemplates['默认'];
-                    if (question.includes('祝福') || question.includes('语')) answer = qaTemplates['祝福语'];
-                    if (question.includes('贺卡') || question.includes('文案')) answer = qaTemplates['贺卡'];
-                    if (question.includes('短信')) answer = qaTemplates['短信'];
-                    if (question.includes('朋友圈')) answer = qaTemplates['朋友圈'];
-
-                    return {
-                        success: true,
-                        content: answer
-                    };
-                } catch (error) {
-                    console.error('AI问答失败:', error);
-                    return {
-                        success: false,
-                        message: 'AI回答生成失败，请重试～',
-                        content: `抱歉，暂时无法回答你的问题：${question}`
-                    };
-                }
-            }
-        };
-
-        // 惊喜页
-        const SurprisePage = {
-            init: () => {
-                const surprisePage = document.getElementById('surprisePage');
-                const loveBtn = document.getElementById('loveBtn');
-                const glowLoveEffect = document.getElementById('glowLoveEffect');
-
-                SurprisePage.startHeartRain(surprisePage);
-
-                document.addEventListener('mousemove', (e) => {
-                    if (!surprisePage.classList.contains('hidden') && window.deviceType === 'desktop') {
-                        glowLoveEffect.style.left = `${e.clientX}px`;
-                        glowLoveEffect.style.top = `${e.clientY}px`;
-                        glowLoveEffect.style.opacity = '0.7';
-                        glowLoveEffect.style.width = '200px';
-                        glowLoveEffect.style.height = '200px';
-                    }
-                });
-                
-                document.addEventListener('touchmove', (e) => {
-                    if (!surprisePage.classList.contains('hidden') && (window.deviceType === 'mobile' || window.deviceType === 'tablet')) {
-                        const touch = e.touches[0];
-                        glowLoveEffect.style.left = `${touch.clientX}px`;
-                        glowLoveEffect.style.top = `${touch.clientY}px`;
-                        glowLoveEffect.style.opacity = '0.7';
-                        glowLoveEffect.style.width = '150px';
-                        glowLoveEffect.style.height = '150px';
-                    }
-                });
-
-                loveBtn.addEventListener('click', () => {
-                    const loveResult = document.getElementById('loveResult');
-                    loveResult.classList.remove('hidden');
-                    loveBtn.disabled = true;
-                    loveBtn.innerHTML = '❤️ 祝福已发送 💘';
-                    
-                    const heartCount = window.deviceType === 'mobile' ? 10 : 20;
-                    for (let i = 0; i < heartCount; i++) {
-                        Utils.createHeartEffect(surprisePage);
-                    }
-
-                    setTimeout(() => {
-                        loveResult.classList.add('hidden');
-                        loveBtn.disabled = false;
-                        loveBtn.innerHTML = '❤️ 领取节日祝福';
-                    }, 3000);
-                });
-            },
-            startHeartRain: (container) => {
-                setInterval(() => {
-                    if (!container.classList.contains('hidden')) {
-                        Utils.createHeartEffect(container);
-                    }
-                }, window.heartRainInterval || 1000);
-            },
-            goToSurprise: () => {
-                document.getElementById('mainPage').classList.add('hidden');
-                document.getElementById('surprisePage').classList.remove('hidden');
-                window.scrollTo(0, 0);
-            },
-            backToMain: () => {
-                document.getElementById('surprisePage').classList.add('hidden');
-                document.getElementById('mainPage').classList.remove('hidden');
-                window.scrollTo(0, 0);
-            }
-        };
-
-        // 主页面
-        const MainPage = {
-            init: () => {
-                MainPage.detectDevice();
-                Utils.loadingProgress('loadingProgress');
-                MainPage.initImageUpload();
-                MainPage.init3dEffect();
-                MainPage.initBlessingGenerator();
-                MainPage.initAiBlessing();
-                MainPage.initAiQa();
-                MainPage.initBlindBox();
-                
-                document.getElementById('goToSurprisePage').addEventListener('click', SurprisePage.goToSurprise);
-                document.getElementById('backToMainPage').addEventListener('click', SurprisePage.backToMain);
-                
-                document.getElementById('deployGuideToggle').addEventListener('click', () => {
-                    document.getElementById('deployGuide').classList.toggle('hidden');
-                });
-
-                MainPage.initPointerGlow();
-            },
-            detectDevice: () => {
-                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                const isTablet = /iPad|Android Tablet/i.test(navigator.userAgent);
-                const isDesktop = !isMobile && !isTablet;
-                
-                document.body.classList.add(isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop');
-                window.deviceType = isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop';
-                
-                if (isMobile) window.heartRainInterval = 2000;
-                else if (isTablet) window.heartRainInterval = 1500;
-                else window.heartRainInterval = 1000;
-            },
-            initPointerGlow: () => {
-                const glowEffect = document.getElementById('glowEffect');
-                
-                document.addEventListener('mousemove', (e) => {
-                    if (window.deviceType === 'desktop') {
-                        glowEffect.style.left = `${e.clientX}px`;
-                        glowEffect.style.top = `${e.clientY}px`;
-                        glowEffect.style.width = '200px';
-                        glowEffect.style.height = '200px';
-                        glowEffect.style.opacity = '0.5';
-                        glowEffect.style.background = `radial-gradient(circle, rgba(${Utils.getRandomThemeColor().replace('#', '')}, 0.1) 0%, transparent 70%)`;
-                    }
-                });
-                
-                document.addEventListener('touchmove', (e) => {
-                    if (window.deviceType === 'mobile' || window.deviceType === 'tablet') {
-                        const touch = e.touches[0];
-                        glowEffect.style.left = `${touch.clientX}px`;
-                        glowEffect.style.top = `${touch.clientY}px`;
-                        glowEffect.style.width = '150px';
-                        glowEffect.style.height = '150px';
-                        glowEffect.style.opacity = '0.7';
-                        glowEffect.style.background = `radial-gradient(circle, rgba(${Utils.getRandomThemeColor().replace('#', '')}, 0.2) 0%, transparent 70%)`;
-                    }
-                });
-                
-                document.addEventListener('mouseleave', () => {
-                    glowEffect.style.opacity = '0';
-                });
-                document.addEventListener('touchend', () => {
-                    setTimeout(() => {
-                        glowEffect.style.opacity = '0';
-                    }, 500);
-                });
-            },
-            initImageUpload: () => {
-                const dropZone = document.getElementById('dropZone');
-                const fileInput = document.getElementById('fileInput');
-                const previewContainer = document.getElementById('imagePreviewContainer');
-
-                dropZone.addEventListener('click', () => fileInput.click());
-                
-                dropZone.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    dropZone.classList.add('border-primary');
-                });
-                dropZone.addEventListener('dragleave', () => {
-                    dropZone.classList.remove('border-primary');
-                });
-                dropZone.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    dropZone.classList.remove('border-primary');
-                    MainPage.handleFiles(e.dataTransfer.files);
-                });
-                
-                dropZone.addEventListener('touchstart', (e) => {
-                    e.preventDefault();
-                    setTimeout(() => {
-                        fileInput.click();
-                    }, 500);
-                });
-                
-                fileInput.addEventListener('change', () => {
-                    MainPage.handleFiles(fileInput.files);
-                });
-
-                MainPage.loadSavedImages();
-
-                previewContainer.addEventListener('click', (e) => {
-                    if (e.target.closest('.delete-image')) {
-                        e.target.closest('.relative').remove();
-                        MainPage.saveImagesToStorage();
-                    }
-                });
-            },
-            handleFiles: (files) => {
-                const previewContainer = document.getElementById('imagePreviewContainer');
-                Array.from(files).forEach(file => {
-                    if (file.type.startsWith('image/')) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            const imgCard = document.createElement('div');
-                            imgCard.className = 'relative hover-scale blessing-card';
-                            imgCard.innerHTML = `
-                                <img src="${e.target.result}" class="w-full h-48 md:h-64 object-cover rounded-xl">
-                                <button class="absolute top-2 right-2 bg-white rounded-full p-2 delete-image">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            `;
-                            previewContainer.appendChild(imgCard);
-                            MainPage.saveImagesToStorage();
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-            },
-            saveImagesToStorage: () => {
-                const images = [];
-                document.querySelectorAll('#imagePreviewContainer img').forEach(img => {
-                    images.push(img.src);
-                });
-                Utils.setStorage('mayday_images', images);
-            },
-            loadSavedImages: () => {
-                const images = Utils.getStorage('mayday_images');
-                if (!images) return;
-                const previewContainer = document.getElementById('imagePreviewContainer');
-                images.forEach(src => {
-                    const imgCard = document.createElement('div');
-                    imgCard.className = 'relative hover-scale blessing-card';
-                    imgCard.innerHTML = `
-                        <img src="${src}" class="w-full h-48 md:h-64 object-cover rounded-xl">
-                        <button class="absolute top-2 right-2 bg-white rounded-full p-2 delete-image">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    `;
-                    previewContainer.appendChild(imgCard);
-                });
-            },
-            init3dEffect: () => {
-                const container = document.getElementById('threeDContainer');
-                const card = container.querySelector('.card-3d');
-                card.classList.add('card-3d-hover');
-
-                if (window.deviceType === 'desktop') {
-                    container.addEventListener('mousemove', (e) => {
-                        const rect = container.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-                        const rotateX = (y - rect.height/2)/8;
-                        const rotateY = (rect.width/2 - x)/8;
-                        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-                    });
-                    container.addEventListener('mouseleave', () => {
-                        card.style.transform = 'rotateX(0) rotateY(0)';
-                    });
-                }
-            },
-            initBlessingGenerator: () => {
-                const generateBtn = document.getElementById('generateCard');
-                const blessingText = document.getElementById('blessingText');
-                const preview = document.getElementById('cardPreview');
-
-                generateBtn.addEventListener('click', () => {
-                    const text = blessingText.value || Config.page.defaultBlessing;
-                    preview.innerHTML = `
-                        <div class="bg-gradient-to-br from-light to-gray-100 rounded-xl p-6 md:p-8 shadow-lg text-center blessing-card">
-                            <h3 class="text-xl md:text-2xl font-medium mb-4 text-primary surprise-item">五一专属祝福</h3>
-                            <p class="text-gray-700 mb-6 typing-effect-enhanced">${text}</p>
-                            <div class="w-24 h-1 bg-primary mx-auto"></div>
+                if (role === 'user') {
+                    // 用户消息：右对齐
+                    messageDiv.className += ' justify-end';
+                    messageDiv.innerHTML = `
+                        <div class="message-user px-4 py-3 max-w-[80%]">
+                            <p>${content}</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center text-white text-sm">
+                            你
                         </div>
                     `;
-                });
-
-                document.getElementById('saveCard').addEventListener('click', () => {
-                    if (!preview.innerHTML) return;
-                    alert('祝福卡片已生成！点击确定保存图片～');
-                });
-            },
-            initAiBlessing: () => {
-                const generateBtn = document.getElementById('generateAiBlessing');
-                const resultContainer = document.getElementById('aiBlessingResult');
-                const loader = generateBtn.querySelector('.loader');
-
-                generateBtn.addEventListener('click', async () => {
-                    generateBtn.disabled = true;
-                    loader.classList.remove('hidden');
-                    resultContainer.innerHTML = '<p class="text-gray-600 text-center">❤️ AI正在生成专属劳动节祝福...</p>';
-
-                    const style = document.getElementById('blessingStyle').value;
-                    const target = document.getElementById('blessingTarget').value;
-                    const length = document.getElementById('blessingLength').value;
-
-                    const result = await ApiService.generateLaborBlessing(style, target, length);
-                    
-                    generateBtn.disabled = false;
-                    loader.classList.add('hidden');
-
-                    if (result.success) {
-                        resultContainer.innerHTML = `
-                            <div class="prose max-w-none surprise-item">
-                                <h4 class="text-love font-medium mb-2">✨ 专属五一劳动节祝福</h4>
-                                <p class="text-gray-800 leading-relaxed text-base md:text-lg">${result.content}</p>
-                                <button class="mt-4 text-love hover:text-[#FF477E] flex items-center gap-1 copy-btn">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2" />
-                                    </svg>
-                                    复制祝福
-                                </button>
+                } else {
+                    // AI消息：左对齐
+                    let contentHtml = content;
+                    if (isLoading) {
+                        contentHtml = `
+                            <div class="loading-dots flex gap-1">
+                                <span class="w-2 h-2 bg-gray-400 rounded-full"></span>
+                                <span class="w-2 h-2 bg-gray-400 rounded-full"></span>
+                                <span class="w-2 h-2 bg-gray-400 rounded-full"></span>
                             </div>
                         `;
-
-                        document.querySelector('.copy-btn').addEventListener('click', async () => {
-                            await Utils.copyToClipboard(result.content);
-                            alert('❤️ 劳动节祝福已复制～');
-                        });
-                    } else {
-                        resultContainer.innerHTML = `
-                            <p class="text-love text-center">
-                                ${result.message}<br>
-                                👇 默认劳动节祝福：<br>
-                                <span class="mt-2 block">${Config.page.defaultBlessing}</span>
-                            </p>
-                        `;
                     }
-                });
-            },
-            // AI问答初始化
-            initAiQa: () => {
-                const askBtn = document.getElementById('askAiBtn');
-                const questionInput = document.getElementById('aiQuestion');
-                const resultContainer = document.getElementById('aiAnswerResult');
-                const loader = askBtn.querySelector('.ai-loading');
-
-                askBtn.addEventListener('click', async () => {
-                    const question = questionInput.value.trim();
-                    if (!question) {
-                        alert('请输入你想提问的内容～');
-                        return;
-                    }
-
-                    askBtn.disabled = true;
-                    loader.classList.remove('hidden');
-                    resultContainer.innerHTML = '<p class="text-gray-600 text-center">🧠 AI正在思考你的问题...</p>';
-
-                    const result = await ApiService.askAiQuestion(question);
-                    
-                    askBtn.disabled = false;
-                    loader.classList.add('hidden');
-
-                    if (result.success) {
-                        resultContainer.innerHTML = `
-                            <div class="prose max-w-none surprise-item">
-                                <h4 class="text-love font-medium mb-2">🤖 AI回答</h4>
-                                <p class="text-gray-800 leading-relaxed text-base md:text-lg whitespace-pre-line">${result.content}</p>
-                                <button class="mt-4 text-love hover:text-[#FF477E] flex items-center gap-1 copy-qa-btn">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2" />
-                                    </svg>
-                                    复制回答
-                                </button>
-                            </div>
-                        `;
-
-                        document.querySelector('.copy-qa-btn').addEventListener('click', async () => {
-                            await Utils.copyToClipboard(result.content);
-                            alert('🧠 AI回答已复制～');
-                        });
-                    } else {
-                        resultContainer.innerHTML = `
-                            <p class="text-love text-center">
-                                ${result.message}<br>
-                                <span class="mt-2 block">${result.content}</span>
-                            </p>
-                        `;
-                    }
-                });
-            },
-            initBlindBox: () => {
-                const openBtn = document.getElementById('openBlindBox');
-                const resultBox = document.getElementById('blindBoxResult');
-                
-                const blindBoxMessages = [
-                    '🥳 五一不用劳动，只用开心～',
-                    '🍓 劳动节快乐！奶茶管够，珍珠加倍！',
-                    '💤 假期可以睡懒觉，超幸福～',
-                    '🛍️ 逛街不累，快乐翻倍！',
-                    '📸 拍照永远美美哒～',
-                    '🍜 五一干饭不打烊，吃遍美食～',
-                    '😘 劳动最光荣，开心最重要！',
-                    '💖 致敬每一个努力的你～'
-                ];
-
-                openBtn.addEventListener('click', () => {
-                    const randomMsg = blindBoxMessages[Math.floor(Math.random() * blindBoxMessages.length)];
-                    resultBox.innerHTML = `
-                        <div class="text-center p-4 bg-gradient-to-br from-loveLight to-white rounded-lg animate-pulse surprise-item">
-                            ${randomMsg}
+                    messageDiv.innerHTML = `
+                        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-sm">
+                            AI
+                        </div>
+                        <div class="message-ai px-4 py-3 max-w-[80%]">
+                            <p>${contentHtml}</p>
                         </div>
                     `;
-                    Utils.createHeartEffect(resultBox);
-                });
+                }
+
+                chatContainer.appendChild(messageDiv);
+                // 滚动到底部
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                return messageDiv;
+            },
+            // 滚动到底部
+            scrollToBottom: () => {
+                const chatContainer = document.getElementById('chatContainer');
+                chatContainer.scrollTop = chatContainer.scrollHeight;
             }
         };
 
-        // 页面加载完成初始化
+        // ====== Kimi API 调用 ======
+        const callKimiApi = async (messages) => {
+            try {
+                const response = await fetch(KIMI_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${KIMI_API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: "moonshot-v1-8k",
+                        messages: messages,
+                        temperature: 0.7,
+                        max_tokens: 1000
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API请求失败：${response.status}`);
+                }
+
+                const data = await response.json();
+                return {
+                    success: true,
+                    content: data.choices[0].message.content
+                };
+            } catch (error) {
+                console.error('Kimi API调用失败:', error);
+                return {
+                    success: false,
+                    message: error.message
+                };
+            };
+        };
+
+        // ====== 发送消息 ======
+        const sendMessage = async (content) => {
+            if (!content.trim()) return;
+
+            // 清空输入框
+            document.getElementById('userInput').value = '';
+            // 禁用发送按钮
+            document.getElementById('sendBtn').disabled = true;
+
+            // 添加用户消息
+            Utils.addMessage('user', content);
+
+            // 添加AI加载消息
+            const aiMessageEl = Utils.addMessage('assistant', '', true);
+
+            // 构建对话历史
+            const messages = [
+                {
+                    role: "system",
+                    content: "你是一个劳动节专属的AI助手，擅长生成劳动节相关的祝福、文案、问答。回答要简洁、友好、贴合劳动节主题。"
+                }
+            ];
+
+            // 收集历史对话
+            const chatMessages = document.querySelectorAll('#chatContainer > div');
+            chatMessages.forEach(msg => {
+                const isUser = msg.querySelector('.message-user') !== null;
+                const text = msg.querySelector('p').textContent;
+                if (text && !text.includes('loading-dots')) {
+                    messages.push({
+                        role: isUser ? 'user' : 'assistant',
+                        content: text
+                    });
+                }
+            });
+
+            // 调用Kimi API
+            const result = await callKimiApi(messages);
+
+            // 移除加载消息
+            aiMessageEl.remove();
+
+            if (result.success) {
+                // 添加AI回答
+                Utils.addMessage('assistant', result.content);
+            } else {
+                // 错误处理
+                Utils.addMessage('assistant', `抱歉，调用AI失败了：${result.message}，请重试～`);
+            }
+
+            // 恢复按钮
+            document.getElementById('sendBtn').disabled = false;
+        };
+
+        // ====== 初始化 ======
         window.addEventListener('DOMContentLoaded', () => {
-            MainPage.init();
-            SurprisePage.init();
-        });
+            // 发送按钮点击
+            document.getElementById('sendBtn').addEventListener('click', () => {
+                const input = document.getElementById('userInput');
+                sendMessage(input.value);
+            });
 
-        window.addEventListener('resize', () => {
-            MainPage.detectDevice();
+            // 回车发送
+            document.getElementById('userInput').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    const input = document.getElementById('userInput');
+                    sendMessage(input.value);
+                }
+            });
+
+            // 快捷问题点击
+            document.querySelectorAll('.quick-question').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const question = btn.dataset.question;
+                    document.getElementById('userInput').value = question;
+                    sendMessage(question);
+                });
+            });
         });
     </script>
 </body>
