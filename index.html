@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>五一劳动节 | 高级质感互动网页</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        burgundy: '#8B3A3A',
+                        cream: '#F5F1E6',
+                        slate: '#E8E9EB',
+                        dark: '#2D2D2D',
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto { content-visibility: auto; }
+            .glass { backdrop-filter: blur(10px); background-color: rgba(255, 255, 255, 0.15); }
+            .text-gradient { background-clip: text; -webkit-background-clip: text; color: transparent; }
+            .bg-texture { background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%238b3a3a' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E"); }
+            .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+            .scrollbar-hide::-webkit-scrollbar { display: none; }
+        }
+    </style>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; overflow-x: hidden; transition: all 0.3s ease-in-out; }
+        .fade-in { animation: fadeIn 0.8s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .typing-effect { overflow: hidden; border-right: 3px solid #8B3A3A; white-space: nowrap; margin: 0 auto; animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite; }
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #8B3A3A; } }
+        .hover-scale { transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; }
+        .hover-scale:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        .glow-effect { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(139, 58, 58, 0.1) 0%, rgba(139, 58, 58, 0) 70%); pointer-events: none; transform: translate(-50%, -50%); transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease; }
+        .card-3d { transform-style: preserve-3d; transition: transform 0.6s ease; }
+        .loading-bar { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: #E8E9EB; z-index: 9999; }
+        .loading-progress { height: 100%; background: linear-gradient(90deg, #8B3A3A, #A64D4D); width: 0%; transition: width 0.3s ease; }
+    </style>
+</head>
+<body class="bg-cream bg-texture text-dark min-h-screen">
+    <div class="loading-bar"><div class="loading-progress" id="loadingProgress"></div></div>
+    <div class="container mx-auto px-4 py-8 relative">
+        <div class="glow-effect" id="glowEffect"></div>
+        <header class="py-8 text-center fade-in">
+            <h1 class="text-[clamp(2rem,5vw,4rem)] font-light text-gradient bg-gradient-to-r from-burgundy to-dark mb-4">五一劳动节</h1>
+            <p class="text-[clamp(1rem,2vw,1.25rem)] text-gray-600 max-w-2xl mx-auto typing-effect">致敬每一位劳动者，祝您假期愉快</p>
+        </header>
+
+        <main class="space-y-16">
+            <section class="fade-in" id="imageUploadSection">
+                <div class="glass rounded-2xl p-8 shadow-lg">
+                    <h2 class="text-2xl font-medium mb-6 text-burgundy">图片上传与自定义</h2>
+                    <div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-burgundy transition-colors duration-300" id="dropZone">
+                        <p class="text-gray-600 mb-4">拖拽或点击上传图片</p>
+                        <input type="file" multiple accept="image/*" class="hidden" id="fileInput">
+                        <button class="bg-burgundy text-white px-6 py-3 rounded-lg hover:bg-opacity-90 transition-all duration-300">选择图片</button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8" id="imagePreviewContainer"></div>
+                </div>
+            </section>
+
+            <section class="fade-in" id="threeDSection">
+                <div class="glass rounded-2xl p-8 shadow-lg">
+                    <h2 class="text-2xl font-medium mb-6 text-burgundy">3D互动元素</h2>
+                    <div class="flex justify-center items-center h-80 relative" id="threeDContainer">
+                        <div class="card-3d w-48 h-48 bg-gradient-to-br from-cream to-slate rounded-xl flex items-center justify-center shadow-lg">
+                            <div class="text-6xl font-bold text-burgundy">5.1</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="fade-in" id="blessingSection">
+                <div class="glass rounded-2xl p-8 shadow-lg">
+                    <h2 class="text-2xl font-medium mb-6 text-burgundy">定制化祝福</h2>
+                    <div class="space-y-4">
+                        <textarea class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-burgundy" rows="4" placeholder="输入您的祝福文案..." id="blessingText"></textarea>
+                        <div class="flex flex-wrap gap-4">
+                            <button class="bg-burgundy text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition-all duration-300" id="generateCard">生成祝福卡片</button>
+                            <button class="border border-burgundy text-burgundy px-6 py-2 rounded-lg hover:bg-burgundy hover:text-white transition-all duration-300" id="saveCard">保存卡片</button>
+                        </div>
+                    </div>
+                    <div class="mt-8 p-4 border border-gray-300 rounded-xl bg-white bg-opacity-50" id="cardPreview"></div>
+                </div>
+            </section>
+
+            <section class="fade-in" id="funSection">
+                <div class="glass rounded-2xl p-8 shadow-lg">
+                    <h2 class="text-2xl font-medium mb-6 text-burgundy">趣味功能</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white bg-opacity-50 rounded-xl p-6 hover-scale">
+                            <h3 class="text-lg font-medium mb-4 text-burgundy">假期足迹生成器</h3>
+                            <input type="text" class="w-full p-3 border border-gray-300 rounded-lg mb-4" placeholder="输入出行地点" id="travelLocation">
+                            <button class="w-full bg-burgundy text-white py-2 rounded-lg hover:bg-opacity-90 transition-all duration-300" id="generateTravelCard">生成足迹卡片</button>
+                        </div>
+                        <div class="bg-white bg-opacity-50 rounded-xl p-6 hover-scale">
+                            <h3 class="text-lg font-medium mb-4 text-burgundy">五一主题盲盒</h3>
+                            <button class="w-full bg-burgundy text-white py-2 rounded-lg hover:bg-opacity-90 transition-all duration-300" id="openBlindBox">打开盲盒</button>
+                            <div class="mt-4 p-4 border border-gray-200 rounded-lg min-h-[100px]" id="blindBoxResult"></div>
+                        </div>
+                        <div class="bg-white bg-opacity-50 rounded-xl p-6 hover-scale">
+                            <h3 class="text-lg font-medium mb-4 text-burgundy">静音模式</h3>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-600">开启静音</span>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer" id="muteToggle">
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-burgundy"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="py-12 text-center fade-in">
+            <div class="mb-8">
+                <button class="text-burgundy hover:underline" id="deployGuideToggle">部署指引</button>
+                <div class="mt-4 p-4 bg-white bg-opacity-50 rounded-xl max-w-2xl mx-auto hidden" id="deployGuide">
+                    <h3 class="text-lg font-medium mb-4 text-burgundy">GitHub Pages 部署步骤</h3>
+                    <ol class="text-left space-y-2 text-gray-600">
+                        <li>1. 创建公开仓库 → 上传本文件</li>
+                        <li>2. Settings → Pages → 选择main分支</li>
+                        <li>3. 等待1-3分钟，自动生成访问链接</li>
+                    </ol>
+                </div>
+            </div>
+            <p class="text-gray-600">© 2025 五一劳动节 | 高级质感互动网页</p>
+        </footer>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            // 加载进度条
+            const loadingProgress = document.getElementById('loadingProgress');
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 5;
+                loadingProgress.style.width = `${progress}%`;
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {document.querySelector('.loading-bar').style.opacity = '0';}, 500);
+                }
+            }, 100);
+
+            // 鼠标光影
+            const glowEffect = document.getElementById('glowEffect');
+            document.addEventListener('mousemove', function(e) {
+                glowEffect.style.left = `${e.clientX}px`;
+                glowEffect.style.top = `${e.clientY}px`;
+                glowEffect.style.width = '200px';
+                glowEffect.style.height = '200px';
+                glowEffect.style.opacity = '0.5';
+            });
+            document.addEventListener('mouseleave', () => {glowEffect.style.opacity = '0';});
+
+            // 图片上传
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+            const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+            dropZone.addEventListener('click', () => fileInput.click());
+
+            // 拖拽
+            dropZone.addEventListener('dragover', (e) => {e.preventDefault(); dropZone.classList.add('border-burgundy');});
+            dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-burgundy'));
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault(); dropZone.classList.remove('border-burgundy');
+                handleFiles(e.dataTransfer.files);
+            });
+
+            fileInput.addEventListener('change', () => handleFiles(fileInput.files));
+            function handleFiles(files) {
+                for(let i=0; i<files.length; i++) {
+                    const file = files[i];
+                    if(file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            const img = document.createElement('div');
+                            img.className = 'relative hover-scale';
+                            img.innerHTML = `<img src="${e.target.result}" class="w-full h-64 object-cover rounded-xl">
+                            <button class="absolute top-2 right-2 bg-white rounded-full p-2 delete-image"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-burgundy" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>`;
+                            imagePreviewContainer.appendChild(img);
+                            saveImagesToLocalStorage();
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
+            }
+
+            // 本地存储
+            function saveImagesToLocalStorage() {
+                const images = [];
+                document.querySelectorAll('#imagePreviewContainer img').forEach(img => images.push(img.src));
+                localStorage.setItem('mayday_images', JSON.stringify(images));
+            }
+            function loadImages() {
+                const data = localStorage.getItem('mayday_images');
+                if(data) JSON.parse(data).forEach(src => {
+                    const img = document.createElement('div');
+                    img.className = 'relative hover-scale';
+                    img.innerHTML = `<img src="${src}" class="w-full h-64 object-cover rounded-xl">
+                    <button class="absolute top-2 right-2 bg-white rounded-full p-2 delete-image"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-burgundy" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>`;
+                    imagePreviewContainer.appendChild(img);
+                });
+            }
+
+            // 删除图片
+            imagePreviewContainer.addEventListener('click', (e) => {
+                if(e.target.closest('.delete-image')) {
+                    e.target.closest('.relative').remove();
+                    saveImagesToLocalStorage();
+                }
+            });
+
+            // 3D效果
+            const threeDContainer = document.getElementById('threeDContainer');
+            const threeDCard = threeDContainer.querySelector('.card-3d');
+            threeDContainer.addEventListener('mousemove', (e) => {
+                const rect = threeDContainer.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const rotateX = (y - rect.height/2)/10;
+                const rotateY = (rect.width/2 - x)/10;
+                threeDCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            threeDContainer.addEventListener('mouseleave', () => {threeDCard.style.transform = 'rotateX(0) rotateY(0)';});
+
+            // 祝福卡片
+            const generateCard = document.getElementById('generateCard');
+            const blessingText = document.getElementById('blessingText');
+            const cardPreview = document.getElementById('cardPreview');
+            generateCard.addEventListener('click', () => {
+                const text = blessingText.value || '祝您五一劳动节快乐！';
+                cardPreview.innerHTML = `<div class="bg-gradient-to-br from-cream to-slate rounded-xl p-8 shadow-lg text-center">
+                <h3 class="text-2xl font-medium mb-4 text-burgundy">五一祝福</h3>
+                <p class="text-gray-700 mb-6">${text}</p><div class="w-24 h-1 bg-burgundy mx-auto"></div></div>`;
+            });
+
+            // 保存卡片
+            document.getElementById('saveCard').addEventListener('click', () => {
+                if(!cardPreview.innerHTML) return;
+                const canvas = document.createElement('canvas');
+                canvas.width = 600; canvas.height = 400;
+                const ctx = canvas.getContext('2d');
+                const g = ctx.createLinearGradient(0,0,600,400);
+                g.addColorStop(0,'#F5F1E6'); g.addColorStop(1,'#E8E9EB');
+                ctx.fillStyle = g; ctx.fillRect(0,0,600,400);
+                ctx.fillStyle='#8B3A3A'; ctx.font='24px Inter'; ctx.textAlign='center';
+                ctx.fillText('五一祝福',300,100);
+                ctx.fillStyle='#2D2D2D'; ctx.font='16px Inter';
+                ctx.fillText(blessingText.value||'祝您五一劳动节快乐！',300,200);
+                ctx.strokeStyle='#8B3A3A'; ctx.lineWidth=2;
+                ctx.beginPath(); ctx.moveTo(200,250); ctx.lineTo(400,250); ctx.stroke();
+                canvas.toBlob(b => {
+                    const u = URL.createObjectURL(b);
+                    const a = document.createElement('a');
+                    a.href=u; a.download='五一祝福卡片.png'; a.click();
+                    URL.revokeObjectURL(u);
+                });
+            });
+
+            // 足迹生成
+            document.getElementById('generateTravelCard').addEventListener('click', () => {
+                const loc = document.getElementById('travelLocation').value || '美好旅途';
+                const card = document.createElement('div');
+                card.className = 'mt-4 p-4 border rounded-xl bg-white bg-opacity-50 hover-scale';
+                card.innerHTML = `<h4 class="text-lg font-medium mb-2 text-burgundy">假期足迹</h4>
+                <p>${loc}</p><p class="text-sm text-gray-500">${new Date().toLocaleDateString()}</p>`;
+                document.querySelector('#funSection .grid').appendChild(card);
+                document.getElementById('travelLocation').value = '';
+            });
+
+            // 盲盒
+            const boxMsg = ['劳动节快乐！愿你假期收获满满','致敬每一位劳动者，你们最美','五一假期，尽享美好时光','劳动创造价值，奋斗成就梦想','愿你的假期充满阳光与快乐','辛勤工作的你，值得最好的假期','五一劳动节，向所有劳动者致敬','假期虽短，快乐无限'];
+            document.getElementById('openBlindBox').addEventListener('click', () => {
+                const msg = boxMsg[Math.floor(Math.random()*boxMsg.length)];
+                document.getElementById('blindBoxResult').innerHTML = `<div class="text-center p-4 bg-gradient-to-br from-cream to-slate rounded-lg animate-pulse">${msg}</div>`;
+            });
+
+            // 静音
+            const mute = document.getElementById('muteToggle');
+            mute.addEventListener('change', () => {localStorage.setItem('mayday_mute', mute.checked);});
+            function loadMute() { mute.checked = localStorage.getItem('mayday_mute') === 'true'; }
+
+            // 部署指引
+            document.getElementById('deployGuideToggle').addEventListener('click', () => {
+                document.getElementById('deployGuide').classList.toggle('hidden');
+            });
+
+            // 初始化
+            loadImages();
+            loadMute();
+        });
+    </script>
+</body>
+</html>
