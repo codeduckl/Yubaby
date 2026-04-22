@@ -60,8 +60,11 @@ const Utils = {
 
     // 创建爱心特效
     createHeartEffect: (container) => {
+        // 如果静音则不生成
+        if (document.getElementById('muteToggle').checked) return;
+        
         const heart = document.createElement('div');
-        heart.className = 'floating-heart absolute';
+        heart.className = 'floating-heart';
         heart.innerHTML = '❤️';
         
         // 随机位置/大小/动画
@@ -74,20 +77,9 @@ const Utils = {
             bottom: -20px;
             font-size: ${size}px;
             color: ${Utils.getRandomThemeColor()};
-            animation: floatHeart ${Math.random() * 3 + 2}s ease-in-out forwards;
             pointer-events: none;
             z-index: 9999;
         `;
-        
-        // 添加动画样式
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes floatHeart {
-                0% { transform: translateY(0); opacity: 1; }
-                100% { transform: translateY(-${containerRect.height + 50}px); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
         
         // 添加到容器
         container.appendChild(heart);
@@ -95,7 +87,6 @@ const Utils = {
         // 移除元素
         setTimeout(() => {
             heart.remove();
-            style.remove();
         }, 5000);
     },
 
@@ -118,5 +109,26 @@ const Utils = {
                 func.apply(this, args);
             }
         };
+    },
+
+    // 生成随机祝福
+    getRandomBlessing: () => {
+        return Config.page.hotBlessings[Math.floor(Math.random() * Config.page.hotBlessings.length)];
+    },
+
+    // 保存图片到本地
+    saveImage: (element, filename) => {
+        html2canvas(element).then(canvas => {
+            const link = document.createElement('a');
+            link.download = filename || `劳动节贺卡_${new Date().getTime()}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+    },
+
+    // 获取上传的第一张图片
+    getFirstUploadedImage: () => {
+        const images = Utils.getStorage(Config.storage.images);
+        return images && images.length > 0 ? images[0] : null;
     }
 };
