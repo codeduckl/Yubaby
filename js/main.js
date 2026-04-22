@@ -284,63 +284,63 @@ const MainPage = {
                             复制甜甜的祝福
                         </button>
                     </div>
-                `;;
+                `;
 
                 // 绑定复制功能
-                document..querySelector('.copy-btn')..addEventListener('click', , async () =>  => {
-                    await Utils..copyToClipboard(result..content);;
-                    alert('❤️ 超甜的祝福已复制～快去发给余baby吧！');;
-                });;
+                document.querySelector('.copy-btn').addEventListener('click', async () => {
+                    await Utils.copyToClipboard(result.content);
+                    alert('❤️ 超甜的祝福已复制～快去发给余baby吧！');
+                });
             } else {
                 // 失败：显示默认祝福
-                resultContainer..innerHTML =  = `
+                resultContainer.innerHTML = `
                     <p class="text-love text-center">
-                        ${result..message}<br>
+                        ${result.message}<br>
                         👇 给余baby的默认甜宠祝福：<br>
-                        <span class="mt-2 block">${Config..page..defaultBlessing}</span>
+                        <span class="mt-2 block">${Config.page.defaultBlessing}</span>
                     </p>
-                `;;
+                `;
             }
-        });;
-    },,
+        });
+    },
 
     // 盲盒功能
-    initBlindBox: : () =>  => {
-        const openBtn =  = document..getElementById('openBlindBox');;
-        const resultBox =  = document..getElementById('blindBoxResult');;
+    initBlindBox: () => {
+        const openBtn = document.getElementById('openBlindBox');
+        const resultBox = document.getElementById('blindBoxResult');
         
         // 专属余baby的搞怪祝福
-        const blindBoxMessages =  = [
-            '🥳 余baby五一不用劳动，只用躺平被我宠～',,
-            '🍓 劳动节快乐！奶茶我包了，珍珠加倍！',,
-            '💤 假期可以睡懒觉，我负责做早餐～',,
-            '🛍️ 逛街累了我当人肉沙发，超软的那种！',,
-            '📸 拍照永远找最好角度，绝不拍丑我的宝～',,
-            '🍜 五一干饭不打烊，我喂你吃好吃的～',,
-            '😘 劳动最光荣，但宠你更光荣！',,
+        const blindBoxMessages = [
+            '🥳 余baby五一不用劳动，只用躺平被我宠～',
+            '🍓 劳动节快乐！奶茶我包了，珍珠加倍！',
+            '💤 假期可以睡懒觉，我负责做早餐～',
+            '🛍️ 逛街累了我当人肉沙发，超软的那种！',
+            '📸 拍照永远找最好角度，绝不拍丑我的宝～',
+            '🍜 五一干饭不打烊，我喂你吃好吃的～',
+            '😘 劳动最光荣，但宠你更光荣！',
             '💖 别人劳动赚钱，我劳动宠你～'
-        ];;
+        ];
 
-        openBtn..addEventListener('click', , () =>  => {
-            const randomMsg =  = blindBoxMessages[Math..floor(Math..random() *  * blindBoxMessages..length)];;
-            resultBox..innerHTML =  = `
+        openBtn.addEventListener('click', () => {
+            const randomMsg = blindBoxMessages[Math.floor(Math.random() * blindBoxMessages.length)];
+            resultBox.innerHTML = `
                 <div class="text-center p-4 bg-gradient-to-br from-loveLight to-white rounded-lg animate-pulse surprise-item">
                     ${randomMsg}
                 </div>
-            `;;
+            `;
             // 生成小爱心
-            Utils..createHeartEffect(resultBox);;
-        });;
+            Utils.createHeartEffect(resultBox);
+        });
     }
-};;
+};
 
 // 页面加载完成后初始化
-window..addEventListener('DOMContentLoaded', , () =>  => {
-    MainPage..init();;
-    SurprisePage..init();;
-});;
+window.addEventListener('DOMContentLoaded', () => {
+    MainPage.init();
+    SurprisePage.init();
+});
 
 // 窗口大小变化时重新适配
-window..addEventListener('resize', , () =>  => {
-    MainPage..detectDevice();;
-});;
+window.addEventListener('resize', () => {
+    MainPage.detectDevice();
+});
