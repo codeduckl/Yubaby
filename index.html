@@ -2,369 +2,285 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="white">
-    <meta name="format-detection" content="telephone=no">
-    <title>五一劳动节 | 专属祝福生成</title>
-    <!-- 基础样式 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>余baby 五一专属惊喜 💘</title>
+    <!-- Tailwind CSS 快速样式 -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- 图片处理依赖（生成贺卡用） -->
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <!-- 自定义样式 -->
+    <!-- 自定义颜色配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF6B8B',
+                        love: '#FF477E',
+                        loveLight: '#FFC2D1',
+                        light: '#FFF5F7'
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- 自定义工具类 -->
     <style type="text/tailwindcss">
         @layer utilities {
-            .content-auto { content-visibility: auto; }
-            .glass { 
-                backdrop-filter: blur(16px); 
-                background: rgba(255, 255, 255, 0.85);
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-            }
-            .glass-primary {
-                backdrop-filter: blur(16px); 
-                background: rgba(45, 66, 99, 0.85);
-                border: 1px solid rgba(45, 66, 99, 0.2);
-                box-shadow: 0 8px 32px rgba(45, 66, 99, 0.15);
-            }
-            .text-gradient { background-clip: text; -webkit-background-clip: text; color: transparent; }
-            .bg-texture { 
-                background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343-3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343-3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343-3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79-4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79-4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24-5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79-4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24-5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24-5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24-5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895-2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895-2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895-2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895-2 2 2z' fill='%232d4263' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E"); 
-                background-attachment: fixed;
-            }
-            .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-            .scrollbar-hide::-webkit-scrollbar { display: none; }
-            .btn-primary {
-                @apply bg-primary text-white border-none px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-lg hover:bg-[#233554] hover:-translate-y-1 hover:shadow-xl;
-            }
-            .btn-accent {
-                @apply bg-[#FF6B8B] text-white border-none px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-lg hover:bg-[#FF477E] hover:-translate-y-1 hover:shadow-xl;
-            }
-            .loader {
-                border: 2px solid rgba(45, 66, 99, 0.1);
-                border-left-color: #2D4263;
-                border-radius: 50%;
-                width: 24px;
-                height: 24px;
-                animation: spin 1s linear infinite;
-            }
-            .loader-accent {
-                border: 2px solid rgba(255, 107, 139, 0.1);
-                border-left-color: #FF6B8B;
-                border-radius: 50%;
-                width: 24px;
-                height: 24px;
-                animation: spin 1s linear infinite;
-            }
-            @keyframes spin { to { transform: rotate(360deg); } }
-            .title {
-                @apply font-bold tracking-tight text-neutral;
-            }
-            .float {
-                animation: float 3s ease-in-out infinite;
-            }
-            @keyframes float {
-                0% { transform: translateY(0px); }
-                50% { transform: translateY(-10px); }
-                100% { transform: translateY(0px); }
-            }
-            .floating-heart {
-                animation: floatHeart 4s ease-in-out forwards;
-            }
-            @keyframes floatHeart {
-                0% { transform: translateY(0); opacity: 1; }
-                100% { transform: translateY(-100vh); opacity: 0; }
+            .content-auto {
+                content-visibility: auto;
             }
             .hover-scale {
                 @apply transition-transform duration-300 hover:scale-105;
             }
-            /* 响应式工具类 */
-            .responsive-grid {
-                @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4;
+            .card-3d {
+                @apply transition-all duration-500 transform perspective-1000;
             }
-            .responsive-btn {
-                @apply w-full sm:w-auto;
+            .card-3d-hover {
+                @apply hover:shadow-xl;
             }
-        }
-    </style>
-    <!-- 响应式适配样式 -->
-    <style>
-        /* 基础重置 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        /* 移动端适配 */
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 16px !important;
+            .typing-effect-enhanced {
+                overflow: hidden;
+                border-right: 2px solid #FF6B8B;
+                white-space: nowrap;
+                margin: 0 auto;
+                animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
             }
-            .glass, .glass-primary {
-                padding: 16px !important;
-                margin: 0 0 24px 0 !important;
+            @keyframes typing {
+                from { width: 0 }
+                to { width: 100% }
             }
-            .btn-primary, .btn-accent {
-                width: 100% !important;
-                padding: 16px !important;
-                font-size: 16px !important;
-            }
-            .card-3d-hover:hover {
-                transform: none !important;
-                box-shadow: 0 10px 20px rgba(45, 66, 99, 0.15) !important;
+            @keyframes blink-caret {
+                from, to { border-color: transparent }
+                50% { border-color: #FF6B8B }
             }
             .floating-heart {
-                font-size: 10px !important;
-                animation-duration: 4s !important;
+                pointer-events: none;
+                z-index: 9999;
             }
-            input, textarea, select {
-                font-size: 16px !important;
-                padding: 12px !important;
-            }
-            #imagePreviewContainer {
-                grid-template-columns: 1fr !important;
-            }
-            #cardPreview, #aiCardPreview {
-                padding: 16px !important;
-                margin: 0 !important;
-            }
-        }
-
-        /* 小屏手机适配 */
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 24px !important;
-            }
-            h2 {
-                font-size: 20px !important;
-            }
-            #threeDContainer {
-                height: 180px !important;
-            }
-            #funSection .grid, #aiSection .grid {
-                grid-template-columns: 1fr !important;
-            }
-        }
-
-        /* PC大屏适配 */
-        @media (min-width: 1200px) {
-            .container {
-                max-width: 1200px !important;
-                margin: 0 auto !important;
-            }
-            .card-3d-hover:hover {
-                transform: rotateY(15deg) rotateX(8deg) scale(1.08) !important;
-            }
-            #imagePreviewContainer {
-                grid-template-columns: repeat(4, 1fr) !important;
-            }
-        }
-
-        /* 触控反馈 */
-        @media (hover: none) and (pointer: coarse) {
-            .btn-primary:active, .btn-accent:active {
-                transform: scale(0.95) !important;
-            }
-            .hover-scale:hover {
-                transform: none !important;
-            }
-        }
-
-        /* 打字机效果 */
-        .typing-effect {
-            overflow: hidden;
-            border-right: .15em solid #2D4263;
-            white-space: nowrap;
-            margin: 0 auto;
-            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
-        }
-
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: #2D4263 }
         }
     </style>
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-light bg-texture text-neutral min-h-screen" id="mainPage">
+<body class="bg-light min-h-screen font-sans text-gray-800 overflow-x-hidden">
     <!-- 加载进度条 -->
-    <div class="loading-bar fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
-        <div class="loading-progress" id="loadingProgress" class="h-full bg-[#FF6B8B] w-0 transition-all duration-500"></div>
-    </div>
+    <div id="loadingProgress" class="fixed top-0 left-0 h-1 bg-primary z-50 w-0 transition-all duration-300"></div>
     
-    <!-- 主容器 -->
-    <div class="container mx-auto px-4 py-8 relative">
-        <!-- 光影效果 -->
-        <div class="glow-effect fixed pointer-events-none z-10 rounded-full opacity-0 transition-all duration-300" id="glowEffect"></div>
-        
-        <!-- 头部 -->
-        <header class="py-8 text-center fade-in">
-            <h1 class="text-[clamp(1.8rem,5vw,4rem)] font-light text-gradient bg-gradient-to-r from-primary to-[#FF6B8B] mb-4 title">
-                五一劳动节
+    <!-- 鼠标/触摸光影效果 -->
+    <div id="glowEffect" class="fixed pointer-events-none z-40 rounded-full opacity-0 transition-all duration-300"></div>
+    <div id="glowLoveEffect" class="fixed pointer-events-none z-40 rounded-full opacity-0 transition-all duration-300 bg-radial-gradient"></div>
+
+    <!-- 主页面 -->
+    <div id="mainPage" class="container mx-auto px-4 py-8 md:py-12">
+        <!-- 顶部标题 -->
+        <header class="text-center mb-12 surprise-item">
+            <h1 class="text-[clamp(2rem,5vw,3rem)] font-bold text-love mb-4 animate-float">
+                余baby 五一快乐 💖
             </h1>
-            <p class="text-[clamp(1rem,2vw,1.25rem)] text-gray-600 max-w-2xl mx-auto typing-effect px-4">
-                致敬每一份努力，生成专属劳动节祝福
+            <p class="text-gray-600 text-lg md:text-xl">
+                专属你的劳动节宠爱，愿你永远被爱包围～
             </p>
         </header>
-        
-        <!-- 主要内容区域 -->
-        <main class="space-y-10 md:space-y-16">
-            <!-- 图片上传模块 -->
-            <section class="fade-in" id="imageUploadSection">
-                <div class="glass rounded-2xl p-4 md:p-8 shadow-lg">
-                    <h2 class="text-[clamp(1.2rem,3vw,2xl)] font-medium mb-6 text-primary title px-2">📸 上传图片（生成贺卡用）</h2>
-                    <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 md:p-8 text-center hover:border-[#FF6B8B] transition-colors duration-300" id="dropZone">
-                        <p class="text-gray-600 mb-4 px-2">拖拽或点击上传图片，支持生成专属劳动节贺卡～</p>
-                        <input type="file" multiple accept="image/*" class="hidden" id="fileInput">
-                        <button class="btn-accent responsive-btn" id="selectImageBtn">选择图片</button>
-                    </div>
-                    <div class="responsive-grid mt-8" id="imagePreviewContainer">
-                        <!-- 图片预览将在这里动态生成 -->
-                    </div>
-                </div>
-            </section>
-            
-            <!-- 3D互动模块 -->
-            <section class="fade-in" id="threeDSection">
-                <div class="glass rounded-2xl p-4 md:p-8 shadow-lg">
-                    <h2 class="text-[clamp(1.2rem,3vw,2xl)] font-medium mb-6 text-primary title px-2">🎁 五一专属3D特效</h2>
-                    <div class="flex justify-center items-center h-60 md:h-80 relative" id="threeDContainer">
-                        <div class="card-3d w-40 md:w-48 h-40 md:h-48 bg-gradient-to-br from-[#FFE6EA] to-light rounded-xl flex items-center justify-center shadow-lg card-3d-hover">
-                            <div class="text-5xl md:text-6xl font-bold text-[#FF6B8B] float">5.1</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- AI问答+祝福生成模块 -->
-            <section class="fade-in" id="aiSection">
-                <div class="glass rounded-2xl p-4 md:p-8 shadow-lg">
-                    <h2 class="title text-[clamp(1.2rem,3vw,2xl)] font-medium mb-6 text-[#FF6B8B] px-2">🤖 AI 智能生成（劳动节专属）</h2>
-                    <div class="space-y-6 px-2">
-                        <!-- AI 问答区域 -->
-                        <div class="bg-white bg-opacity-70 rounded-xl p-4 md:p-6">
-                            <h3 class="text-lg font-medium mb-4 text-primary">💬 AI 问答（自定义提问）</h3>
-                            <textarea class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6B8B]" rows="3" placeholder="例如：帮我写一段五一劳动节祝福语、生成五一贺卡文案、五一假期祝福..." id="aiQuestion"></textarea>
-                            <div class="flex flex-wrap gap-4 mt-4">
-                                <button class="btn-accent flex items-center gap-2 responsive-btn" id="askAiBtn">
-                                    <span>向AI提问</span>
-                                    <div class="loader loader-accent hidden" id="aiLoader"></div>
-                                </button>
-                            </div>
-                            <div class="mt-4 p-4 border border-gray-200 rounded-lg min-h-[100px]" id="aiAnswerContainer">
-                                <p class="text-gray-500 text-center">输入问题后点击按钮，AI将为你生成专属回答～</p>
-                            </div>
-                        </div>
-                        
-                        <!-- 贺卡生成选项 -->
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div class="bg-white bg-opacity-70 rounded-xl p-4">
-                                <label class="block text-gray-700 mb-2">🎨 贺卡风格：</label>
-                                <select class="w-full p-2 border border-gray-300 rounded-lg" id="cardStyle">
-                                    <option value="简约">简约清新</option>
-                                    <option value="喜庆" selected>喜庆节日</option>
-                                    <option value="文艺">文艺复古</option>
-                                    <option value="卡通">卡通可爱</option>
-                                </select>
-                            </div>
-                            <div class="bg-white bg-opacity-70 rounded-xl p-4">
-                                <label class="block text-gray-700 mb-2">📝 祝福语来源：</label>
-                                <select class="w-full p-2 border border-gray-300 rounded-lg" id="blessingSource">
-                                    <option value="ai">AI生成内容</option>
-                                    <option value="custom" selected>自定义输入</option>
-                                </select>
-                            </div>
-                            <div class="bg-white bg-opacity-70 rounded-xl p-4">
-                                <label class="block text-gray-700 mb-2">🖼️ 背景图片：</label>
-                                <select class="w-full p-2 border border-gray-300 rounded-lg" id="cardBackground">
-                                    <option value="uploaded">上传的图片</option>
-                                    <option value="default" selected>默认五一背景</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <!-- 生成贺卡按钮 -->
-                        <div class="flex flex-wrap gap-4">
-                            <button class="btn-primary responsive-btn" id="generateCardBtn">生成劳动节贺卡</button>
-                            <button class="border border-primary text-primary px-6 py-3 rounded-lg hover:bg-primary hover:text-white transition-all duration-300 responsive-btn" id="saveCardBtn">保存贺卡图片</button>
-                        </div>
-                        
-                        <!-- 贺卡预览 -->
-                        <div class="mt-8 p-4 border border-gray-300 rounded-xl bg-white bg-opacity-50 px-2" id="cardPreview">
-                            <div class="text-center text-gray-500">
-                                生成的劳动节贺卡将在这里展示～
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- 趣味功能模块 -->
-            <section class="fade-in" id="funSection">
-                <div class="glass rounded-2xl p-4 md:p-8 shadow-lg">
-                    <h2 class="text-[clamp(1.2rem,3vw,2xl)] font-medium mb-6 text-primary title px-2">🎉 五一趣味功能</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 px-2">
-                        <!-- 五一祝福盲盒 -->
-                        <div class="bg-white bg-opacity-70 rounded-xl p-4 md:p-6 hover-scale">
-                            <h3 class="text-lg font-medium mb-4 text-[#FF6B8B]">🎀 祝福盲盒</h3>
-                            <button class="w-full btn-accent" id="openBlindBoxBtn">打开盲盒</button>
-                            <div class="mt-4 p-4 border border-gray-200 rounded-lg min-h-[100px]" id="blindBoxResult">
-                                <p class="text-center text-gray-500">点击打开随机五一祝福～</p>
-                            </div>
-                        </div>
-                        
-                        <!-- 静音模式 -->
-                        <div class="bg-white bg-opacity-70 rounded-xl p-4 md:p-6 hover-scale">
-                            <h3 class="text-lg font-medium mb-4 text-[#FF6B8B]">🔇 特效静音</h3>
-                            <div class="flex items-center justify-between">
-                                <span class="text-gray-600">关闭爱心特效</span>
-                                <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" class="sr-only peer" id="muteToggle">
-                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#FF6B8B]"></div>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <!-- 一键复制祝福 -->
-                        <div class="bg-white bg-opacity-70 rounded-xl p-4 md:p-6 hover-scale">
-                            <h3 class="text-lg font-medium mb-4 text-[#FF6B8B]">📋 复制祝福</h3>
-                            <button class="w-full btn-accent" id="copyBlessingBtn">复制热门五一祝福</button>
-                            <div class="mt-4 p-4 border border-gray-200 rounded-lg min-h-[100px]" id="copyResult">
-                                <p class="text-center text-gray-500">点击复制精选五一祝福语～</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-        
-        <!-- 底部 -->
-        <footer class="py-8 md:py-12 text-center fade-in px-2">
-            <div class="mb-6 md:mb-8">
-                <button class="text-[#FF6B8B] hover:underline" id="deployGuideToggle">部署指引</button>
-                <div class="mt-4 p-4 bg-white bg-opacity-50 rounded-xl max-w-2xl mx-auto hidden" id="deployGuide">
-                    <h3 class="text-lg font-medium mb-4 text-[#FF6B8B]">🚀 部署指引</h3>
-                    <ol class="text-left space-y-2 text-gray-600">
-                        <li>1. 创建GitHub仓库，按目录结构上传所有文件</li>
-                        <li>2. Settings → Pages → 选择main分支，保存</li>
-                        <li>3. 等待1-3分钟，访问生成的链接即可</li>
-                    </ol>
+
+        <!-- 照片上传区域 -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-medium text-center mb-8 text-primary">
+                📸 上传我们的甜蜜瞬间
+            </h2>
+            <div id="dropZone" class="border-2 border-dashed border-gray-300 rounded-2xl p-8 md:p-12 text-center hover:border-primary transition-colors cursor-pointer mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <p class="text-gray-600 mb-2">点击/拖拽上传照片（移动端长按）</p>
+                <p class="text-sm text-gray-500">支持jpg/png格式，可上传多张～</p>
+                <input type="file" id="fileInput" class="hidden" accept="image/*" multiple>
+            </div>
+            <!-- 照片预览 -->
+            <div id="imagePreviewContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <!-- 上传的照片会在这里显示 -->
+            </div>
+        </section>
+
+        <!-- 3D祝福卡片区域 -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-medium text-center mb-8 text-primary">
+                💌 专属祝福卡片
+            </h2>
+            <div id="threeDContainer" class="max-w-3xl mx-auto mb-8 relative h-64 md:h-80 flex items-center justify-center">
+                <div class="card-3d bg-white rounded-2xl p-8 shadow-lg w-full max-w-lg text-center">
+                    <h3 class="text-xl md:text-2xl font-medium mb-4 text-love">五一劳动节快乐</h3>
+                    <p class="text-gray-700">点击下方按钮生成你的专属祝福～</p>
                 </div>
             </div>
-            <p class="text-gray-600">✨ 五一劳动节专属祝福生成器 · 致敬每一份努力 ✨</p>
+            
+            <!-- 祝福生成器 -->
+            <div class="max-w-2xl mx-auto">
+                <textarea id="blessingText" class="w-full p-4 rounded-xl border border-gray-200 mb-4 focus:outline-none focus:ring-2 focus:ring-primary/50 h-32 resize-none" placeholder="输入想对余baby说的话（不填则使用默认祝福）..."></textarea>
+                <div class="flex gap-4 justify-center">
+                    <button id="generateCard" class="bg-primary text-white px-6 py-3 rounded-xl hover:bg-love transition-colors hover-scale">
+                        🎨 生成祝福卡片
+                    </button>
+                    <button id="saveCard" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300 transition-colors hover-scale">
+                        💾 保存卡片
+                    </button>
+                </div>
+                
+                <!-- 卡片预览 -->
+                <div id="cardPreview" class="mt-8 max-w-lg mx-auto">
+                    <!-- 生成的卡片会在这里显示 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- AI祝福生成 -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-medium text-center mb-8 text-primary">
+                ✨ AI生成甜宠祝福
+            </h2>
+            <div class="max-w-2xl mx-auto bg-white rounded-2xl p-6 md:p-8 shadow-lg">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div>
+                        <label class="block text-gray-700 mb-2 text-sm">祝福风格</label>
+                        <select id="blessingStyle" class="w-full p-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50">
+                            <option value="搞怪">搞怪可爱</option>
+                            <option value="温馨" selected>温馨治愈</option>
+                            <option value="甜蜜">超甜腻歪</option>
+                            <option value="霸道">霸道宠溺</option>
+                            <option value="文艺">文艺浪漫</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2 text-sm">祝福对象</label>
+                        <input type="text" id="blessingTarget" class="w-full p-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50" value="余baby" placeholder="比如：我的宝贝">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2 text-sm">祝福长度</label>
+                        <select id="blessingLength" class="w-full p-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50">
+                            <option value="50">简短（50字内）</option>
+                            <option value="100" selected>适中（100字内）</option>
+                            <option value="200">长篇（200字内）</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button id="generateAiBlessing" class="w-full bg-love text-white px-6 py-3 rounded-xl hover:bg-primary transition-colors hover-scale flex items-center justify-center gap-2">
+                    🤖 生成AI专属祝福
+                    <span class="loader hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </span>
+                </button>
+                
+                <!-- AI祝福结果 -->
+                <div id="aiBlessingResult" class="mt-6 p-4 rounded-lg bg-light min-h-[100px]">
+                    <p class="text-gray-600 text-center">点击上方按钮生成专属甜宠祝福～</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 五一盲盒 -->
+        <section class="mb-16">
+            <h2 class="text-2xl md:text-3xl font-medium text-center mb-8 text-primary">
+                🎁 五一惊喜盲盒
+            </h2>
+            <div class="max-w-md mx-auto text-center">
+                <div class="bg-white rounded-2xl p-8 shadow-lg mb-6">
+                    <div id="blindBoxResult" class="mb-6 min-h-[80px] flex items-center justify-center">
+                        <p class="text-gray-600">点击按钮开启惊喜～</p>
+                    </div>
+                    <button id="openBlindBox" class="bg-gradient-to-r from-primary to-love text-white px-8 py-4 rounded-xl hover-scale text-lg font-medium">
+                        🎉 开启盲盒
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 惊喜页跳转 -->
+        <section class="text-center mb-8">
+            <button id="goToSurprisePage" class="bg-love text-white px-8 py-4 rounded-full hover:bg-primary transition-colors hover-scale text-lg font-medium shadow-lg">
+                💘 点击进入专属惊喜页
+            </button>
+        </section>
+
+        <!-- 部署指引 -->
+        <section class="mt-16 text-center">
+            <button id="deployGuideToggle" class="text-primary hover:text-love transition-colors text-sm">
+                🔍 查看部署指引
+            </button>
+            <div id="deployGuide" class="hidden mt-4 text-sm text-gray-600 max-w-lg mx-auto bg-white p-4 rounded-lg shadow">
+                <p>本页面已部署至 GitHub Pages：<a href="https://codeduckl.github.io/Yubaby/" class="text-primary hover:underline" target="_blank">codeduckl.github.io/Yubaby/</a></p>
+                <p class="mt-2">支持PC/手机/平板全端适配，刷新即可体验所有功能～</p>
+            </div>
+        </section>
+
+        <!-- 页脚 -->
+        <footer class="text-center mt-16 text-gray-500 text-sm">
+            <p>💖 专属余baby的五一宠爱 · 永远爱你 💖</p>
         </footer>
     </div>
 
-    <!-- 引入JS文件 -->
+    <!-- 惊喜页面 -->
+    <div id="surprisePage" class="hidden fixed inset-0 bg-gradient-to-br from-love to-primary z-50 overflow-y-auto">
+        <div class="container mx-auto px-4 py-12 text-center text-white">
+            <!-- 返回按钮 -->
+            <button id="backToMainPage" class="absolute top-4 left-4 bg-white/20 text-white px-4 py-2 rounded-full hover:bg-white/30 transition-colors hover-scale">
+                ← 返回主页
+            </button>
+
+            <!-- 惊喜页内容 -->
+            <header class="mb-12">
+                <h1 class="text-[clamp(2.5rem,8vw,4rem)] font-bold mb-4 animate-float">
+                    我爱你 ❤️ 余baby
+                </h1>
+                <p class="text-xl md:text-2xl text-white/90">
+                    劳动节快乐，我的专属宝贝～
+                </p>
+            </header>
+
+            <div class="max-w-lg mx-auto bg-white/10 backdrop-blur-sm rounded-3xl p-8 md:p-12 mb-12">
+                <div class="mb-8">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 mx-auto text-white animate-float" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </div>
+                
+                <p class="text-xl md:text-2xl mb-8 leading-relaxed">
+                    愿你在这个劳动节，<br>
+                    卸下所有疲惫，<br>
+                    只享受被爱的甜蜜～<br>
+                    我会一直宠着你，爱着你 💞
+                </p>
+                
+                <button id="loveBtn" class="bg-white text-love px-8 py-4 rounded-full hover-scale text-lg font-medium shadow-lg">
+                    ❤️ 点击领取我的爱
+                </button>
+                
+                <div id="loveResult" class="hidden mt-6 text-xl font-medium">
+                    💘 爱意已送达！余baby收到满满宠爱～
+                </div>
+            </div>
+
+            <footer class="text-white/80">
+                <p>永远爱你的专属宠爱 💖</p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- 脚本文件（按依赖顺序引入） -->
     <script src="js/config.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/api.js"></script>
+    <script src="js/surprise.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
